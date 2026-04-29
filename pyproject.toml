@@ -1,37 +1,103 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "spidermind"
 version = "0.1.0"
-description = "AI-powered modular web crawler framework"
+description = "🕷️ AI-Powered Modular Web Crawler Framework"
 readme = "README.md"
-license = "MIT"
-requires-python = ">=3.10"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "caozuohua", email = "535863761@qq.com"}
+]
+keywords = [
+    "crawler",
+    "web-scraping",
+    "ai",
+    "machine-learning",
+    "web-framework"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries",
+]
 
 dependencies = [
-    "pydantic>=2.0,<3.0",
-    "httpx>=0.25,<1.0",
-    "beautifulsoup4>=4.12,<5.0",
-    "lxml>=4.9,<6.0",
-    "click>=8.0,<9.0",
-    "rich>=13.0,<14.0",
-    "pyyaml>=6.0,<7.0",
-    "tenacity>=8.0,<9.0",
+    "requests>=2.28.0",
+    "beautifulsoup4>=4.11.0",
+    "aiohttp>=3.8.0",
+    "pydantic>=1.10.0",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
-ai = ["openai>=1.0,<2.0", "anthropic>=0.18,<1.0"]
-all = ["spidermind[ai]"]
-dev = ["pytest>=7.0", "pytest-asyncio>=0.23", "pytest-cov>=4.0", "ruff>=0.1"]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.20.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
 
 [project.urls]
-Repository = "https://github.com/caozuohua/spidermind"
+Homepage = "https://github.com/caozuohua/spidermind"
+Documentation = "https://github.com/caozuohua/spidermind/tree/main/docs"
+Repository = "https://github.com/caozuohua/spidermind.git"
+"Bug Tracker" = "https://github.com/caozuohua/spidermind/issues"
+
+[tool.setuptools]
+packages = ["spidermind"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip_gitignore = true
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-asyncio_mode = "auto"
-
-[tool.ruff]
-line-length = 100
+addopts = "--cov=spidermind --cov-report=term-missing:skip-covered --cov-report=html"
+python_files = ["test_*.py", "*_test.py"]
